@@ -15,20 +15,29 @@ sequences = []
 for genbank_acession in lines:
     print(genbank_acession)
     try:    
-        #Add genbank acession to list
-        genbank_acession_versions.append(genbank_acession)
-        #Fetch genbank id by genbank acession and add to list
+        #Fetch genbank id by genbank acession
         esr = ec.esearch(db='protein',term=genbank_acession)
-        genbank_ids.append(esr.ids[0])
+        genbank_id = esr.ids[0]
+        
         #Fetch protein sequence by genbank id and add to list
         egs = ec.efetch(db='protein', id=esr.ids[0])
         eg = egs.gbseqs
-        sequences.append(eg[0].sequence)
+        sequence = eg[0].sequence
+        
         #Fetch protein title
-        titles.append(eg[0].definition)
+        title = eg[0].definition
     except:
         with open(r'C:\\Users\\Maninho\\Desktop\\CAZY\\genbank_id_exceptions.txt', 'a') as f:
             f.write(f"{genbank_acession}\n")
+    else:
+        #Add genbank acession to list
+        genbank_acession_versions.append(genbank_acession)
+        #Add genbank id to list
+        genbank_ids.append(genbank_id)
+        #Add sequence to list
+        sequences.append(sequence)
+        #Add title to list
+        titles.append(title)
 
 #Turn data into dataframe and write to file
 cazy_dict = {'Title': titles, 'Genbank acession': genbank_acession_versions, 'Genbank ID': genbank_ids, 'Sequences': sequences}
