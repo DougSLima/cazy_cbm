@@ -13,6 +13,7 @@ genbank_ids = []
 sequences = []
 
 for genbank_acession in lines:
+    print(genbank_acession)
     try:    
         #Add genbank acession to list
         genbank_acession_versions.append(genbank_acession)
