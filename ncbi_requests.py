@@ -4,13 +4,14 @@ import pandas as pd
 ec = Client(api_key='a5f3ff9a50469b812685039e84baf0e68e08')
 
 #Get genbank acession list from file
-lines_df = pd.read_csv(r'C:\\Users\\Maninho\\Desktop\\CAZY\\genbank_ids.txt', header=None, names=['genbank_acession'])
+lines_df = pd.read_csv(r'C:\\Users\\Maninho\\Desktop\\CAZY\\genbank_cbms.txt', sep=";", header=None, names=['genbank_acession', 'CBM_family'])
 lines = lines_df['genbank_acession'].values
 
 titles = []
 genbank_acession_versions = []
 genbank_ids = []
 sequences = []
+families = []
 
 for genbank_acession in lines:
     print(genbank_acession)
@@ -27,7 +28,7 @@ for genbank_acession in lines:
         #Fetch protein title
         title = eg[0].definition
     except:
-        with open(r'C:\\Users\\Maninho\\Desktop\\CAZY\\genbank_id_exceptions.txt', 'a') as f:
+        with open(r'C:\\Users\\Maninho\\Desktop\\CAZY\\genbank_id_exceptions_v3.txt', 'a') as f:
             f.write(f"{genbank_acession}\n")
     else:
         #Add genbank acession to list
@@ -38,9 +39,11 @@ for genbank_acession in lines:
         sequences.append(sequence)
         #Add title to list
         titles.append(title)
+        #Add CBM family name to list
+        families.append()
 
 #Turn data into dataframe and write to file
-cazy_dict = {'Title': titles, 'Genbank acession': genbank_acession_versions, 'Genbank ID': genbank_ids, 'Sequences': sequences}
+cazy_dict = {'Title': titles, 'Genbank acession': genbank_acession_versions, 'Genbank ID': genbank_ids, 'CBM_family': families,'Sequences': sequences}
 cazy_df = pd.DataFrame(data = cazy_dict)
 
 cazy_df.to_csv(r'C:\\Users\\Maninho\\Desktop\\CAZY\\cazy_df.csv', header=True, sep=';')
