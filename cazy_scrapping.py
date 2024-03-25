@@ -15,6 +15,6 @@ for cbm_family in range(0, 102):
     for row in links_ncbi:
         genbank_ids.append(row.find('b').string) if row.find('b') is not None else None
     #Write genbank_acession_versions file
-    with open(r'C:\\Users\\Maninho\\Desktop\\CAZY\\genbank_ids.txt', 'a') as f:
+    with open(r'C:\\Users\\Maninho\\Desktop\\CAZY\\genbank_cbms.txt', 'a') as f:
         for id in genbank_ids:
-            f.write(f"{id}\n")
+            f.write(f"{id};CBM{cbm_family}\n")
