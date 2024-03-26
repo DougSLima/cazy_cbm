@@ -27,6 +27,9 @@ for genbank_acession in lines:
         
         #Fetch protein title
         title = eg[0].definition
+
+        #Fetch CBM family name
+        family = lines_df.loc[lines_df['genbank_acession'] == genbank_acession]['CBM_family'].values[0]
     except:
         with open(r'C:\\Users\\Maninho\\Desktop\\CAZY\\genbank_id_exceptions_v3.txt', 'a') as f:
             f.write(f"{genbank_acession}\n")
@@ -40,10 +43,10 @@ for genbank_acession in lines:
         #Add title to list
         titles.append(title)
         #Add CBM family name to list
-        families.append()
+        families.append(family)
 
 #Turn data into dataframe and write to file
 cazy_dict = {'Title': titles, 'Genbank acession': genbank_acession_versions, 'Genbank ID': genbank_ids, 'CBM_family': families,'Sequences': sequences}
 cazy_df = pd.DataFrame(data = cazy_dict)
 
-cazy_df.to_csv(r'C:\\Users\\Maninho\\Desktop\\CAZY\\cazy_df.csv', header=True, sep=';')
+cazy_df.to_csv(r'C:\\Users\\Maninho\\Desktop\\CAZY\\cazy_df_v3.csv', header=True, sep=';')
